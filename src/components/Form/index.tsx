@@ -70,15 +70,15 @@ export default class Form extends React.Component<IProps, IState> {
         return <MainRoot>
             <Root>
                 <Title>Пролайкай стену</Title>
-                <InputWrapper   >
+                <InputWrapper>
                     <Label>Username</Label>
                     <Input placeholder={'   Ваш Username'} />
                 </InputWrapper>
-                <InputWrapper   >
+                <InputWrapper>
                     <Label>Пароль</Label>
                     <Input placeholder={'   Ваш пароль'} />
                 </InputWrapper>
-                <InputWrapper   >
+                <InputWrapper>
                     <Label>Username цели</Label>
                     <Input placeholder={'   Username цели'} />
                 </InputWrapper>
