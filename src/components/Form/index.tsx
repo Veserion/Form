@@ -1,14 +1,13 @@
 import React from "react";
 import styled from "@emotion/styled"
 import Input from "../Input"
-import css from "@emotion/core"
-import img from '/Users/workstation/myProjects/form/src/images/bg.jpg'
+import bg from '../../images/bg.jpg'
 
 const MainRoot = styled.div`
 margin: -8px;
 width: 100vw;
 height: 100vh;
-background-image: url(${img});
+background-image: url(${bg});
 background-size: cover;
 opacity: 1;
 `
