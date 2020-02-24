@@ -3,15 +3,6 @@ import styled from "@emotion/styled"
 import Input from "../Input"
 import bg from '../../images/bg.jpg'
 
-const MainRoot = styled.div`
-margin: -8px;
-width: 100vw;
-height: 100vh;
-background-image: url(${bg});
-background-size: cover;
-opacity: 1;
-`
-
 const Root = styled.div`
 position: absolute;
 display:flex;
@@ -67,23 +58,21 @@ interface IState {
 
 export default class Form extends React.Component<IProps, IState> {
     render() {
-        return <MainRoot>
-            <Root>
-                <Title>Пролайкай стену</Title>
-                <InputWrapper>
-                    <Label>Username</Label>
-                    <Input placeholder={'   Ваш Username'} />
-                </InputWrapper>
-                <InputWrapper>
-                    <Label>Пароль</Label>
-                    <Input placeholder={'   Ваш пароль'} />
-                </InputWrapper>
-                <InputWrapper>
-                    <Label>Username цели</Label>
-                    <Input placeholder={'   Username цели'} />
-                </InputWrapper>
-                <Button>Пролайкать</Button>
-            </Root>
-        </MainRoot>
+        return <Root>
+            <Title>Пролайкай стену</Title>
+            <InputWrapper>
+                <Label>Username</Label>
+                <Input placeholder={'   Ваш Username'} />
+            </InputWrapper>
+            <InputWrapper>
+                <Label>Пароль</Label>
+                <Input placeholder={'   Ваш пароль'} />
+            </InputWrapper>
+            <InputWrapper>
+                <Label>Username цели</Label>
+                <Input placeholder={'   Username цели'} />
+            </InputWrapper>
+            <Button>Пролайкать</Button>
+        </Root>
     }
 }
