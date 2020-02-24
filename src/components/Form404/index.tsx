@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { withRouter, RouteComponentProps } from "react-router-dom";
+
 const Root = styled.div`
 background-size: cover;
 width: 100vw;

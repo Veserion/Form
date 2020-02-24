@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled"
 import Input from "../Input"
-// import bg from '../../images/bg.jpg'
-
+import axios from 'axios';
 const Root = styled.div`
 position: absolute;
 display:flex;
@@ -53,26 +52,76 @@ font-family: 'Roboto', sans-serif;
 interface IProps {
 }
 interface IState {
+    password: string
+    username: string
+    target: string
+    isLoading: boolean
 }
 
 
+
+
 export default class Form extends React.Component<IProps, IState> {
+
+    state = {
+        password: '',
+        username: '',
+        target: '',
+        isLoading: false
+    }
+
+
+
+    handleLikeWall = async () => {
+        const { } = this.state;
+        const { username, password, target } = this.state;
+        const isValid = validateForm(username, password, target);
+        if (!isValid) {
+            alert('Error: invalid request')
+            return
+        }
+        this.setState({ isLoading: true })
+        const resData = { username, password, target, count: 2 }
+        const res = await axios.post('http://localhost:8080/api/like', resData)
+        this.setState({ isLoading: false })
+        console.log(res);
+
+    }
+
+    handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
+        this.setState({ password: e.target.value })
+
+    handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) =>
+        this.setState({ username: e.target.value })
+
+    handleChangeTarget = (e: React.ChangeEvent<HTMLInputElement>) =>
+        this.setState({ target: e.target.value })
+
+
     render() {
+        const { username, password, target, isLoading } = this.state
+        if (isLoading) return <Loading />
         return <Root>
             <Title>Пролайкай стену</Title>
             <InputWrapper>
                 <Label>Username</Label>
-                <Input placeholder={'   Ваш Username'} />
+                <Input value={username} onChange={this.handleChangeUsername} placeholder={'Ваш Username'} />
             </InputWrapper>
             <InputWrapper>
                 <Label>Пароль</Label>
-                <Input placeholder={'   Ваш пароль'} />
+                <Input value={password} onChange={this.handleChangePassword} placeholder={'Ваш пароль'} type="password" />
             </InputWrapper>
             <InputWrapper>
                 <Label>Username цели</Label>
-                <Input placeholder={'   Username цели'} />
+                <Input value={target} onChange={this.handleChangeTarget} placeholder={'Username цели'} />
             </InputWrapper>
-            <Button>Пролайкать</Button>
+            <Button onClick={this.handleLikeWall}>Пролайкать</Button>
         </Root>
     }
 }
+
+const validateForm = (...args: string[]) =>
+    args.length > 0 && args.every((arg: string) => arg !== '' && !arg.includes(' '))
+
+
+const Loading = () => <div>Loading...</div>
