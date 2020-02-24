@@ -5,6 +5,8 @@ import bg from '../../images/bg.jpg'
 import { Route, Router, Switch} from 'react-router-dom';
 import { History } from 'history';
 import Form404 from '../Form404';
+import AuthForm from '../AuthForm';
+
 
 const Background = styled.div`
 margin: -8px;
@@ -30,6 +32,7 @@ export default class App extends React.Component<IProps, IState>{
             <Router history={this.props.history}>
                 <Switch>
                 <Route exact path="/" component={Form}/>
+                <Route exact path="/authorization" component={AuthForm}/>
                 <Route component={Form404}/>
                 </Switch>
             </Router>

@@ -52,11 +52,6 @@ interface IProps extends RouteComponentProps {
 interface IState {
 }
 
-// function handleClick() {
-//     // let history = useHistory();
-//     History.push("/");
-// }
-
 class Form404 extends React.Component<IProps, IState> {
 
     handleGoHome = () => this.props.history.push('/')

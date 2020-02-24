@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled"
 import Input from "../Input"
-// import bg from '../../images/bg.jpg'
 
 const Root = styled.div`
 position: absolute;
@@ -10,7 +9,7 @@ flex-direction: column;
 align-items: left;
 background: rgba(15,15,15, 0.7);
 min-width: 300px;
-min-height: 300px;
+min-height: 250px;
 padding: 30px;
 left: calc((100vw - 400px)/2);
 top: 60px;
@@ -50,6 +49,13 @@ text-align: center;
 font-family: 'Roboto', sans-serif;
 `
 
+const ButtonWrapper = styled.div`
+margin-bottom: 20px;
+display: flex;
+flex-direction: row;
+justify-content: start;
+`
+
 interface IProps {
 }
 interface IState {
@@ -59,20 +65,19 @@ interface IState {
 export default class Form extends React.Component<IProps, IState> {
     render() {
         return <Root>
-            <Title>Пролайкай стену</Title>
+            <Title>Авторизайция</Title>
             <InputWrapper>
                 <Label>Username</Label>
-                <Input placeholder={'   Ваш Username'} />
+                <Input placeholder={'   Введите Username'} />
             </InputWrapper>
             <InputWrapper>
                 <Label>Пароль</Label>
-                <Input placeholder={'   Ваш пароль'} />
+                <Input placeholder={'   Введите пароль'} />
             </InputWrapper>
-            <InputWrapper>
-                <Label>Username цели</Label>
-                <Input placeholder={'   Username цели'} />
-            </InputWrapper>
-            <Button>Пролайкать</Button>
+            <ButtonWrapper>
+                <Button>Войти</Button>
+                <Button>Регистрация</Button>
+            </ButtonWrapper>
         </Root>
     }
 }
