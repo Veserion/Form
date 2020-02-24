@@ -1,27 +1,50 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
+
 func main() {
 	router := gin.Default()
 	v1 := router.Group("/api")
 	{
-		//v1.POST("/like", like)
 		v1.GET("/hello", doSayHello)
+		v1.POST("/like", like)
 	}
-	//router.NoRoute(func(c *gin.Context) {
-	//	render(c, gin.H{"payload": "not found"})
-	//})
 	router.Run()
 }
 
-func like(c *gin.Context) {
-	SayHello()
+type LikeJSON struct {
+	User     string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+	Target   string `json:"target" binding:"required"`
+	Count    int    `json:"count"`
 }
 
-func doSayHello(c *gin.Context)  {
+func like(c *gin.Context) {
+	decoder := json.NewDecoder(c.Request.Body)
+	var res LikeJSON
+	err := decoder.Decode(&res)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, "invalid data, err: "+err.Error())
+		return
+	}
+
+	var count = -1
+	if res.Count >= 0 {
+		count = res.Count
+	}
+	err = LikeUser(res.User, res.Password, res.Target, count)
+	if err == nil {
+		c.JSON(http.StatusOK, gin.H{"status": "success"})
+	} else {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+	}
+}
+
+func doSayHello(c *gin.Context) {
 	render(c, gin.H{"payload": SayHello()})
 }
 
