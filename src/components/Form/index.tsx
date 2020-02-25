@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import Input from '../Input';
+import React from "react";
+import styled from "@emotion/styled"
+import Input from "../Input"
 import axios from 'axios';
 import { buildModalDialog } from '../Modal';
 import notificationService from '../../services/notificationService';
@@ -21,23 +21,23 @@ top: 60px;
     margin: 10px 0;
 }
 border-radius: 5px;
-`;
+`
 const Title = styled.div`
 font-size: 23px;
 color: white;
-font-family: 'Roboto', sans-serif;`;
+font-family: 'Roboto', sans-serif;`
 
 const InputWrapper = styled.div`
 font-size: 15px;
 & > * {
     margin: 5px 0;
-}`;
+}`
 
 const Label = styled.div`
 font-size: inherit;
 color: white;
 font-family: 'Roboto', sans-serif;
-`;
+`
 
 const Button = styled.div`
 display: flex;
@@ -51,17 +51,18 @@ width: 110px;
 height: 35px;
 text-align: center;
 font-family: 'Roboto', sans-serif;
-`;
+`
 
 interface IProps {
 }
-
 interface IState {
     password: string
     username: string
     target: string
     isLoading: boolean
 }
+
+
 
 
 export default class Form extends React.Component<IProps, IState> {
@@ -71,7 +72,8 @@ export default class Form extends React.Component<IProps, IState> {
         username: '',
         target: '',
         isLoading: false
-    };
+    }
+
 
 
     handleLikeWall = async () => {
@@ -89,43 +91,42 @@ export default class Form extends React.Component<IProps, IState> {
         this.setState({isLoading: false});
         console.log(res);
 
-    };
+    }
 
     handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
-        this.setState({password: e.target.value});
+        this.setState({ password: e.target.value })
 
     handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) =>
-        this.setState({username: e.target.value});
+        this.setState({ username: e.target.value })
 
     handleChangeTarget = (e: React.ChangeEvent<HTMLInputElement>) =>
-        this.setState({target: e.target.value});
+        this.setState({ target: e.target.value })
 
     render() {
-        const {username, password, target, isLoading} = this.state;
+        const { username, password, target, isLoading } = this.state
         // const message = 'Invalid Form'
-        if (isLoading) return <Loading/>;
+        if (isLoading) return <Loading />
         return <Root>
             <Title>Пролайкай стену</Title>
             <InputWrapper>
                 <Label>Username</Label>
-                <Input value={username} onChange={this.handleChangeUsername} placeholder={'Ваш Username'}/>
+                <Input value={username} onChange={this.handleChangeUsername} placeholder={'Ваш Username'} />
             </InputWrapper>
             <InputWrapper>
                 <Label>Пароль</Label>
-                <Input value={password} onChange={this.handleChangePassword} placeholder={'Ваш пароль'}
-                       type="password"/>
+                <Input value={password} onChange={this.handleChangePassword} placeholder={'Ваш пароль'} type="password" />
             </InputWrapper>
             <InputWrapper>
                 <Label>Username цели</Label>
-                <Input value={target} onChange={this.handleChangeTarget} placeholder={'Username цели'}/>
+                <Input value={target} onChange={this.handleChangeTarget} placeholder={'Username цели'} />
             </InputWrapper>
-            <Button onClick={this.handleLikeWall}>Пролайкать</Button>
-        </Root>;
+            <Button onClick={this.handleLikeWall} >Пролайкать</Button>
+        </Root>
     }
 }
 
 const validateForm = (...args: string[]) =>
-    args.length > 0 && args.every((arg: string) => arg !== '' && !arg.includes(' '));
+    args.length > 0 && args.every((arg: string) => arg !== '' && !arg.includes(' '))
 
 
-const Loading = () => <div>Loading...</div>;
+const Loading = () => <div>Loading...</div>
