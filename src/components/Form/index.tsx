@@ -60,6 +60,7 @@ interface IState {
     username: string
     target: string
     isLoading: boolean
+    isOpen: boolean
 }
 
 
@@ -71,7 +72,8 @@ export default class Form extends React.Component<IProps, IState> {
         password: '',
         username: '',
         target: '',
-        isLoading: false
+        isLoading: false,
+        isOpen: false
     }
 
 
@@ -80,16 +82,20 @@ export default class Form extends React.Component<IProps, IState> {
         const { } = this.state;
         const { username, password, target } = this.state;
         const isValid = validateForm(username, password, target);
+        let isOpen = false;
         if (!isValid) {
             console.log('fine');
-            ReactDOM.createPortal(<Modal label={'Invalid Form'} isOpen={true} />, document.getElementById('portal')!);
-        };
-        this.setState({ isLoading: true });
-        const resData = { username, password, target, count: 2 };
-        const res = await axios.post('http://localhost:8080/api/like', resData);
-        this.setState({ isLoading: false });
-        console.log(res);
-
+            this.setState({isOpen : true});
+            console.log(this.state.isOpen);
+        }
+        else {
+            this.setState({ isLoading: true });
+            const resData = { username, password, target, count: 2 };
+            const res = await axios.post('http://localhost:8080/api/like', resData);
+            this.setState({ isLoading: false });
+            console.log(res);
+        }
+        return isOpen
     }
 
     handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -101,13 +107,8 @@ export default class Form extends React.Component<IProps, IState> {
     handleChangeTarget = (e: React.ChangeEvent<HTMLInputElement>) =>
         this.setState({ target: e.target.value })
 
-    // handler = () => {
-    //     this.handleLikeWall;
-    //     {ReactDOM.createPortal( <Modal label={ 'message' } isOpen={ true }/>  , document.getElementById('portal')!)}       
-    // }
     render() {
-        const { username, password, target, isLoading } = this.state
-        // const message = 'Invalid Form'
+        const { username, password, target, isLoading, isOpen } = this.state
         if (isLoading) return <Loading />
         return <Root>
             <Title>Пролайкай стену</Title>
@@ -124,6 +125,8 @@ export default class Form extends React.Component<IProps, IState> {
                 <Input value={target} onChange={this.handleChangeTarget} placeholder={'Username цели'} />
             </InputWrapper>
             <Button onClick={this.handleLikeWall} >Пролайкать</Button>
+            {ReactDOM.createPortal(<Modal label={'Invalid Form'} isOpen={this.state.isOpen} />, document.getElementById('portal')!)}
+            {console.log(this.state.isOpen)}
         </Root>
     }
 }
