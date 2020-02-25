@@ -56,16 +56,14 @@ export default class Modal extends React.Component<IProps, IState> {
 
     render() {
         const message = this.props.label;
-        if (this.state.isOpen) {
-            return <Root>
+        return this.state.isOpen
+            ? <Root>
                 <ModalWindow>
                     <CloseButton onClick={this.handler}> Close</CloseButton>
                     <Text>{message}</Text>
                 </ModalWindow>
-            </Root>;
-        } else {
-            return null;
-        }
+            </Root>
+            : null;
     }
 }
 
