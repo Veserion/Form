@@ -19,7 +19,7 @@ width: 300px;
 height: 250px;
 margin-top: 150px;
 background: white;
-border-radius: 5px solid black;
+border-radius: 5px;//в border-radius указывается только размер, для того что ты написал надо использовать "border: 5px solid black"
 text-align: center;
 `
 
@@ -53,16 +53,16 @@ export default class Modal extends React.Component<IProps, IState> {
 
     render() {
         const message = this.props.label;
-        if (this.state.isOpen) {
-            return <Root>
+        return this.state.isOpen
+            ? <Root>
                 <ModalWindow>
                     <CloseButton onClick={this.handler}> Close</CloseButton>
                     <Text>{message}</Text>
                 </ModalWindow>
             </Root>
-        }
-        else {
-            return null
-        }
+            : null;
     }
 }
+
+
+export const buildModalDialog = (label: string, isOpen = true) => <Modal label={label} isOpen={isOpen}/>;

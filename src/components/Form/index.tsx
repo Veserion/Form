@@ -2,15 +2,15 @@ import React from "react";
 import styled from "@emotion/styled"
 import Input from "../Input"
 import axios from 'axios';
-import ReactDOM from 'react-dom'
-import Modal from "../Modal";
+import { buildModalDialog } from '../Modal';
+import notificationService from '../../services/notificationService';
 
 
 const Root = styled.div`
 position: absolute;
 display:flex;
 flex-direction: column;
-align-items: left;
+align-items: flex-start;//тут нет свойства left
 background: rgba(15,15,15, 0.7);
 min-width: 300px;
 min-height: 300px;
@@ -77,17 +77,18 @@ export default class Form extends React.Component<IProps, IState> {
 
 
     handleLikeWall = async () => {
-        const { } = this.state;
-        const { username, password, target } = this.state;
+        const {username, password, target} = this.state;
         const isValid = validateForm(username, password, target);
         if (!isValid) {
-            console.log('fine');
-            ReactDOM.createPortal(<Modal label={'Invalid Form'} isOpen={true} />, document.getElementById('portal')!);
-        };
-        this.setState({ isLoading: true });
-        const resData = { username, password, target, count: 2 };
+            notificationService.notify(buildModalDialog('Invalid Form'));
+            this.setState({isLoading: false});
+            return;
+        }
+
+        this.setState({isLoading: true});
+        const resData = {username, password, target, count: 2};
         const res = await axios.post('http://localhost:8080/api/like', resData);
-        this.setState({ isLoading: false });
+        this.setState({isLoading: false});
         console.log(res);
 
     }
@@ -101,10 +102,6 @@ export default class Form extends React.Component<IProps, IState> {
     handleChangeTarget = (e: React.ChangeEvent<HTMLInputElement>) =>
         this.setState({ target: e.target.value })
 
-    // handler = () => {
-    //     this.handleLikeWall;
-    //     {ReactDOM.createPortal( <Modal label={ 'message' } isOpen={ true }/>  , document.getElementById('portal')!)}       
-    // }
     render() {
         const { username, password, target, isLoading } = this.state
         // const message = 'Invalid Form'
