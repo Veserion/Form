@@ -6,6 +6,7 @@ const Root = styled.div`
 position: absolute;
 display:flex;
 flex-direction: column;
+margin-top: 50px;
 align-items: left;
 background: rgba(15,15,15, 0.7);
 min-width: 300px;
@@ -26,7 +27,7 @@ font-family: 'Roboto', sans-serif;`
 const InputWrapper = styled.div`
 font-size: 15px;
 & > * {
-    margin: 5px 0;
+    margin: 10px 0;
 }`
 
 const Label = styled.div`
@@ -35,7 +36,7 @@ color: white;
 font-family: 'Roboto', sans-serif;
 `
 
-const Button = styled.div`
+const SignIn = styled.div`
 display: flex;
 justify-content: center;
 flex-direction: column;
@@ -47,10 +48,28 @@ width: 110px;
 height: 35px;
 text-align: center;
 font-family: 'Roboto', sans-serif;
+background-color: white;
+color: black;
+font-size: 15px;
 `
 
+const SignUp = styled.div`
+display: flex;
+justify-content: center;
+flex-direction: column;
+margin-left: 10px;
+border: 1px solid white;
+border-radius: 5px;
+outline: none;
+width: 110px;
+height: 35px;
+text-align: center;
+font-family: 'Roboto', sans-serif;
+background-color: inherit;
+color: white;
+`
 const ButtonWrapper = styled.div`
-margin-bottom: 20px;
+margin-bottom: 0px;
 display: flex;
 flex-direction: row;
 justify-content: start;
@@ -65,18 +84,18 @@ interface IState {
 export default class Form extends React.Component<IProps, IState> {
     render() {
         return <Root>
-            <Title>Авторизайция</Title>
+            <Title>Авторизация</Title>
             <InputWrapper>
                 <Label>Username</Label>
-                <Input placeholder={'   Введите Username'} />
+                <Input placeholder={'Введите Username'} />
             </InputWrapper>
             <InputWrapper>
                 <Label>Пароль</Label>
-                <Input placeholder={'   Введите пароль'} />
+                <Input placeholder={'Введите пароль'} />
             </InputWrapper>
             <ButtonWrapper>
-                <Button>Войти</Button>
-                <Button>Регистрация</Button>
+                <SignIn>Войти</SignIn>
+                <SignUp>Регистрация</SignUp>
             </ButtonWrapper>
         </Root>
     }
