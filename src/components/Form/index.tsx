@@ -79,14 +79,13 @@ export default class Form extends React.Component<IProps, IState> {
 
 
     handleLikeWall = async () => {
-        const { } = this.state;
-        const { username, password, target } = this.state;
+        const { username, password, target, isOpen } = this.state;
         const isValid = validateForm(username, password, target);
-        let isOpen = false;
+        this.setState({isOpen : false});
         if (!isValid) {
             console.log('fine');
-            this.setState({isOpen : true});
-            console.log(this.state.isOpen);
+            this.setState({isOpen : !isOpen});
+            // console.log(this.state.isOpen);
         }
         else {
             this.setState({ isLoading: true });
@@ -95,7 +94,7 @@ export default class Form extends React.Component<IProps, IState> {
             this.setState({ isLoading: false });
             console.log(res);
         }
-        return isOpen
+        // return isOpen
     }
 
     handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -110,6 +109,25 @@ export default class Form extends React.Component<IProps, IState> {
     render() {
         const { username, password, target, isLoading, isOpen } = this.state
         if (isLoading) return <Loading />
+        // if (isOpen) return <Root>
+        //     <Title>Пролайкай стену</Title>
+        //     <InputWrapper>
+        //         <Label>Username</Label>
+        //         <Input value={username} onChange={this.handleChangeUsername} placeholder={'Ваш Username'} />
+        //     </InputWrapper>
+        //     <InputWrapper>
+        //         <Label>Пароль</Label>
+        //         <Input value={password} onChange={this.handleChangePassword} placeholder={'Ваш пароль'} type="password" />
+        //     </InputWrapper>
+        //     <InputWrapper>
+        //         <Label>Username цели</Label>
+        //         <Input value={target} onChange={this.handleChangeTarget} placeholder={'Username цели'} />
+        //     </InputWrapper>
+        //     <Button onClick={this.handleLikeWall} >Пролайкать</Button>
+        //     {/* {this.state.isOpen && ReactDOM.createPortal(<Modal label={'Проверьте введенные данные'} isOpen={true} />, document.getElementById('portal')!)} */}
+        //     {console.log(this.state.isOpen)}
+        //     {isOpen && ReactDOM.createPortal(<Modal label={'Проверьте введенные данные'} isOpen={true} />, document.getElementById('portal')!)}
+        // </Root>
         return <Root>
             <Title>Пролайкай стену</Title>
             <InputWrapper>
@@ -125,7 +143,7 @@ export default class Form extends React.Component<IProps, IState> {
                 <Input value={target} onChange={this.handleChangeTarget} placeholder={'Username цели'} />
             </InputWrapper>
             <Button onClick={this.handleLikeWall} >Пролайкать</Button>
-            {ReactDOM.createPortal(<Modal label={'Invalid Form'} isOpen={this.state.isOpen} />, document.getElementById('portal')!)}
+            {this.state.isOpen && ReactDOM.createPortal(<Modal label={'Проверьте введенные данные'} isOpen={true} />, document.getElementById('portal')!)}
             {console.log(this.state.isOpen)}
         </Root>
     }
