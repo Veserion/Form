@@ -1,6 +1,5 @@
-import React from 'react'
-import styled from "@emotion/styled"
-import close_window from '../../images/close_window.png'
+import React from 'react';
+import styled from '@emotion/styled';
 
 const Root = styled.div`
 position: absolute;
@@ -12,7 +11,7 @@ justify-content: center;
 width: 100vw;
 height: 100vh;
 background-color: rgba(15,15,15, 0.7);
-`
+`;
 
 
 const ModalWindow = styled.div`
@@ -26,13 +25,13 @@ background: white;
 border-radius: 5px;
 /* border: 1px solid red; */
 text-align: center;
-`
+`;
 
 
 const Text = styled.div`
 margin-top: 80px;
 font-family: 'Roboto', sans-serif;
-`
+`;
 
 const CloseButton = styled.div`
 position: relative;
@@ -49,12 +48,13 @@ height: 20px;
 margin-left: auto;
 margin-right: 10px;
 margin-top: -105px;
-`
+`;
 
 interface IProps {
     label: string
     isOpen: boolean
 }
+
 interface IState {
     isOpen: boolean
 }
@@ -62,11 +62,10 @@ interface IState {
 export default class Modal extends React.Component<IProps, IState> {
     state = {
         isOpen: this.props.isOpen
-    }
+    };
 
-    handler = () => { () => { 
-        this.setState({ isOpen: false });
-    } }
+    handler = () => this.setState({isOpen: false});
+
 
     render() {
         const message = this.props.label;
@@ -76,10 +75,9 @@ export default class Modal extends React.Component<IProps, IState> {
                     <CloseButton onClick={this.handler}>Close</CloseButton>
                     <Text>{message}</Text>
                 </ModalWindow>
-            </Root>
-        }
-        else {
-            return null
+            </Root>;
+        } else {
+            return null;
         }
     }
 }
