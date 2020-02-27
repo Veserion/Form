@@ -4,6 +4,8 @@ import Input from "../Input"
 import axios from 'axios';
 import ReactDOM from 'react-dom'
 import Modal from "../Modal";
+import {observable} from 'mobx'
+import {observer} from 'mobx-react'
 
 
 const Root = styled.div`
@@ -54,38 +56,33 @@ font-family: 'Roboto', sans-serif;
 `
 
 interface IProps {
+    // isOpenVar : boolean
 }
 interface IState {
     password: string
     username: string
     target: string
     isLoading: boolean
-    isOpen: boolean
 }
 
-
-
-
-export default class Form extends React.Component<IProps, IState> {
+@observer export default class Form extends React.Component<IProps, IState> {
 
     state = {
         password: '',
         username: '',
         target: '',
         isLoading: false,
-        isOpen: false
     }
 
-
+    @observable isOpenVar : boolean = false;
 
     handleLikeWall = async () => {
-        const { username, password, target, isOpen } = this.state;
+        const { username, password, target} = this.state;
         const isValid = validateForm(username, password, target);
-        this.setState({isOpen : false});
+        this.isOpenVar = false;
         if (!isValid) {
             console.log('fine');
-            this.setState({isOpen : !isOpen});
-            // console.log(this.state.isOpen);
+            this.isOpenVar = true;
         }
         else {
             this.setState({ isLoading: true });
@@ -94,7 +91,7 @@ export default class Form extends React.Component<IProps, IState> {
             this.setState({ isLoading: false });
             console.log(res);
         }
-        // return isOpen
+        return this.isOpenVar
     }
 
     handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -107,27 +104,8 @@ export default class Form extends React.Component<IProps, IState> {
         this.setState({ target: e.target.value })
 
     render() {
-        const { username, password, target, isLoading, isOpen } = this.state
+        const { username, password, target, isLoading} = this.state
         if (isLoading) return <Loading />
-        // if (isOpen) return <Root>
-        //     <Title>Пролайкай стену</Title>
-        //     <InputWrapper>
-        //         <Label>Username</Label>
-        //         <Input value={username} onChange={this.handleChangeUsername} placeholder={'Ваш Username'} />
-        //     </InputWrapper>
-        //     <InputWrapper>
-        //         <Label>Пароль</Label>
-        //         <Input value={password} onChange={this.handleChangePassword} placeholder={'Ваш пароль'} type="password" />
-        //     </InputWrapper>
-        //     <InputWrapper>
-        //         <Label>Username цели</Label>
-        //         <Input value={target} onChange={this.handleChangeTarget} placeholder={'Username цели'} />
-        //     </InputWrapper>
-        //     <Button onClick={this.handleLikeWall} >Пролайкать</Button>
-        //     {/* {this.state.isOpen && ReactDOM.createPortal(<Modal label={'Проверьте введенные данные'} isOpen={true} />, document.getElementById('portal')!)} */}
-        //     {console.log(this.state.isOpen)}
-        //     {isOpen && ReactDOM.createPortal(<Modal label={'Проверьте введенные данные'} isOpen={true} />, document.getElementById('portal')!)}
-        // </Root>
         return <Root>
             <Title>Пролайкай стену</Title>
             <InputWrapper>
@@ -143,8 +121,8 @@ export default class Form extends React.Component<IProps, IState> {
                 <Input value={target} onChange={this.handleChangeTarget} placeholder={'Username цели'} />
             </InputWrapper>
             <Button onClick={this.handleLikeWall} >Пролайкать</Button>
-            {this.state.isOpen && ReactDOM.createPortal(<Modal label={'Проверьте введенные данные'} isOpen={true} />, document.getElementById('portal')!)}
-            {console.log(this.state.isOpen)}
+            {this.isOpenVar && ReactDOM.createPortal(<Modal label={'Проверьте введенные данные'} isOpen={true} />, document.getElementById('portal')!)}
+            {console.log(this.isOpenVar)}
         </Root>
     }
 }

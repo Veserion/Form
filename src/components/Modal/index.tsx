@@ -54,7 +54,6 @@ margin-top: -105px;
 interface IProps {
     label: string
     isOpen: boolean
-    callback: boolean
 }
 interface IState {
     isOpen: boolean
@@ -67,7 +66,6 @@ export default class Modal extends React.Component<IProps, IState> {
 
     handler = () => { () => { 
         this.setState({ isOpen: false });
-        const callback = () => false;
     } }
 
     render() {
