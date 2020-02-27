@@ -1,16 +1,12 @@
 import React from "react";
 import styled from "@emotion/styled"
 import Input from "../Input"
-import bg from '../../images/bg.jpg'
+import axios from 'axios';
+import ReactDOM from 'react-dom'
+import Modal from "../Modal";
+import {observable} from 'mobx'
+import {observer} from 'mobx-react'
 
-const MainRoot = styled.div`
-margin: -8px;
-width: 100vw;
-height: 100vh;
-background-image: url(${bg});
-background-size: cover;
-opacity: 1;
-`
 
 const Root = styled.div`
 position: absolute;
@@ -60,30 +56,79 @@ font-family: 'Roboto', sans-serif;
 `
 
 interface IProps {
+    // isOpenVar : boolean
 }
 interface IState {
+    password: string
+    username: string
+    target: string
+    isLoading: boolean
 }
 
+@observer export default class Form extends React.Component<IProps, IState> {
 
-export default class Form extends React.Component<IProps, IState> {
+    state = {
+        password: '',
+        username: '',
+        target: '',
+        isLoading: false,
+    }
+
+    @observable isOpenVar : boolean = false;
+
+    handleLikeWall = async () => {
+        const { username, password, target} = this.state;
+        const isValid = validateForm(username, password, target);
+        this.isOpenVar = false;
+        if (!isValid) {
+            console.log('fine');
+            this.isOpenVar = true;
+        }
+        else {
+            this.setState({ isLoading: true });
+            const resData = { username, password, target, count: 2 };
+            const res = await axios.post('http://localhost:8080/api/like', resData);
+            this.setState({ isLoading: false });
+            console.log(res);
+        }
+        return this.isOpenVar
+    }
+
+    handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
+        this.setState({ password: e.target.value })
+
+    handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) =>
+        this.setState({ username: e.target.value })
+
+    handleChangeTarget = (e: React.ChangeEvent<HTMLInputElement>) =>
+        this.setState({ target: e.target.value })
+
     render() {
-        return <MainRoot>
-            <Root>
-                <Title>Пролайкай стену</Title>
-                <InputWrapper>
-                    <Label>Username</Label>
-                    <Input placeholder={'   Ваш Username'} />
-                </InputWrapper>
-                <InputWrapper>
-                    <Label>Пароль</Label>
-                    <Input placeholder={'   Ваш пароль'} />
-                </InputWrapper>
-                <InputWrapper>
-                    <Label>Username цели</Label>
-                    <Input placeholder={'   Username цели'} />
-                </InputWrapper>
-                <Button>Пролайкать</Button>
-            </Root>
-        </MainRoot>
+        const { username, password, target, isLoading} = this.state
+        if (isLoading) return <Loading />
+        return <Root>
+            <Title>Пролайкай стену</Title>
+            <InputWrapper>
+                <Label>Username</Label>
+                <Input value={username} onChange={this.handleChangeUsername} placeholder={'Ваш Username'} />
+            </InputWrapper>
+            <InputWrapper>
+                <Label>Пароль</Label>
+                <Input value={password} onChange={this.handleChangePassword} placeholder={'Ваш пароль'} type="password" />
+            </InputWrapper>
+            <InputWrapper>
+                <Label>Username цели</Label>
+                <Input value={target} onChange={this.handleChangeTarget} placeholder={'Username цели'} />
+            </InputWrapper>
+            <Button onClick={this.handleLikeWall} >Пролайкать</Button>
+            {this.isOpenVar && ReactDOM.createPortal(<Modal label={'Проверьте введенные данные'} isOpen={true} />, document.getElementById('portal')!)}
+            {console.log(this.isOpenVar)}
+        </Root>
     }
 }
+
+const validateForm = (...args: string[]) =>
+    args.length > 0 && args.every((arg: string) => arg !== '' && !arg.includes(' '))
+
+
+const Loading = () => <div>Loading...</div>
