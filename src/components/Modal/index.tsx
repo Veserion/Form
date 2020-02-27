@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from "@emotion/styled"
-import close_window from '../../images/close_window.png'
+// import close_window from '../../images/close_window.png'
+import Form from "../Form"
+import {OnCloseStore} from '../../stores'
 
 const Root = styled.div`
 position: absolute;
@@ -53,20 +55,21 @@ margin-top: -105px;
 
 interface IProps {
     label: string
-    isOpen: boolean
+    // isOpen: boolean
 }
 interface IState {
     isOpen: boolean
 }
 
 export default class Modal extends React.Component<IProps, IState> {
-    state = {
-        isOpen: this.props.isOpen
-    }
+    // state = {
+    //     isOpen: this.props.isOpen
+    // }
 
-    handler = () => { () => { 
-        this.setState({ isOpen: false });
-    } }
+    handler = () => { 
+        // this.setState({ isOpen: false });
+        OnCloseStore.changeOnCloseVar;
+    }
 
     render() {
         const message = this.props.label;

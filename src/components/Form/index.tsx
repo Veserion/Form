@@ -85,13 +85,13 @@ interface IState {
             this.isOpenVar = true;
         }
         else {
+            this.isOpenVar = false;
             this.setState({ isLoading: true });
             const resData = { username, password, target, count: 2 };
             const res = await axios.post('http://localhost:8080/api/like', resData);
             this.setState({ isLoading: false });
             console.log(res);
         }
-        return this.isOpenVar
     }
 
     handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
